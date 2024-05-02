@@ -425,8 +425,6 @@ namespace spine {
                     triangles.indices = batch->allocateIndices(triangles.indexCount);
                     memcpy(triangles.indices, _clipper->clippedTriangles->items, sizeof(unsigned short) * _clipper->clippedTriangles->size);
 
-                    ax::TrianglesCommand* batchedTriangles = batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, triangles, transform, transformFlags);
-
                     float* verts = _clipper->clippedVertices->items;
                     float* uvs = _clipper->clippedUVs->items;
                     if (_effect) {
@@ -437,8 +435,8 @@ namespace spine {
                         light.b = color.b / 255.0f;
                         light.a = color.a / 255.0f;
                         dark.r = dark.g = dark.b = dark.a = 0;
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount, vv = 0; v < vn; ++v, vv += 2) {
-                            V3F_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = triangles.vertCount, vv = 0; v < vn; ++v, vv += 2) {
+                            V3F_C4B_T2F* vertex = triangles.verts + v;
                             spColor lightCopy = light;
                             spColor darkCopy = dark;
                             vertex->vertices.x = verts[vv];
@@ -453,8 +451,8 @@ namespace spine {
                         }
                     }
                     else {
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount, vv = 0; v < vn; ++v, vv += 2) {
-                            V3F_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = triangles.vertCount, vv = 0; v < vn; ++v, vv += 2) {
+                            V3F_C4B_T2F* vertex = triangles.verts + v;
                             vertex->vertices.x = verts[vv];
                             vertex->vertices.y = verts[vv + 1];
                             vertex->texCoords.u = uvs[vv];
@@ -465,9 +463,9 @@ namespace spine {
                             vertex->colors.a = (uint8_t)color.a;
                         }
                     }
+                    batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, triangles, transform, transformFlags);
                 }
                 else {
-                    ax::TrianglesCommand* batchedTriangles = batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, triangles, transform, transformFlags);
 
                     if (_effect) {
                         spColor light;
@@ -477,8 +475,8 @@ namespace spine {
                         light.b = color.b / 255.0f;
                         light.a = color.a / 255.0f;
                         dark.r = dark.g = dark.b = dark.a = 0;
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount; v < vn; ++v) {
-                            V3F_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = triangles.vertCount; v < vn; ++v) {
+                            V3F_C4B_T2F* vertex = triangles.verts + v;
                             spColor lightCopy = light;
                             spColor darkCopy = dark;
                             _effect->transform(_effect, &vertex->vertices.x, &vertex->vertices.y, &vertex->texCoords.u, &vertex->texCoords.v, &lightCopy, &darkCopy);
@@ -489,14 +487,15 @@ namespace spine {
                         }
                     }
                     else {
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount; v < vn; ++v) {
-                            V3F_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = triangles.vertCount; v < vn; ++v) {
+                            V3F_C4B_T2F* vertex = triangles.verts + v;
                             vertex->colors.r = (uint8_t)color.r;
                             vertex->colors.g = (uint8_t)color.g;
                             vertex->colors.b = (uint8_t)color.b;
                             vertex->colors.a = (uint8_t)color.a;
                         }
                     }
+                    batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, triangles, transform, transformFlags);
                 }
             }
             else {
@@ -515,8 +514,6 @@ namespace spine {
                     trianglesTwoColor.indices = twoColorBatch->allocateIndices(trianglesTwoColor.indexCount);
                     memcpy(trianglesTwoColor.indices, _clipper->clippedTriangles->items, sizeof(unsigned short) * _clipper->clippedTriangles->size);
 
-                    TwoColorTrianglesCommand* batchedTriangles = lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
-
                     float* verts = _clipper->clippedVertices->items;
                     float* uvs = _clipper->clippedUVs->items;
 
@@ -531,8 +528,8 @@ namespace spine {
                         dark.g = darkColor.g / 255.0f;
                         dark.b = darkColor.b / 255.0f;
                         // dark.a = darkColor.a / 255.0f;
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount, vv = 0; v < vn; ++v, vv += 2) {
-                            V3F_C4B_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = trianglesTwoColor.vertCount, vv = 0; v < vn; ++v, vv += 2) {
+                            V3F_C4B_C4B_T2F* vertex = trianglesTwoColor.verts + v;
                             spColor lightCopy = light;
                             spColor darkCopy = dark;
                             vertex->position.x = verts[vv];
@@ -551,8 +548,8 @@ namespace spine {
                         }
                     }
                     else {
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount, vv = 0; v < vn; ++v, vv += 2) {
-                            V3F_C4B_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = trianglesTwoColor.vertCount, vv = 0; v < vn; ++v, vv += 2) {
+                            V3F_C4B_C4B_T2F* vertex = trianglesTwoColor.verts + v;
                             vertex->position.x = verts[vv];
                             vertex->position.y = verts[vv + 1];
                             vertex->texCoords.u = uvs[vv];
@@ -567,9 +564,9 @@ namespace spine {
                             vertex->color2.a = (uint8_t)darkColor.a;
                         }
                     }
+                    lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
                 }
                 else {
-                    TwoColorTrianglesCommand* batchedTriangles = lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
 
                     if (_effect) {
                         spColor light;
@@ -583,8 +580,8 @@ namespace spine {
                         dark.b = darkColor.b / 255.0f;
                         dark.a = darkColor.a / 255.0f;
 
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount; v < vn; ++v) {
-                            V3F_C4B_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = trianglesTwoColor.vertCount; v < vn; ++v) {
+                            V3F_C4B_C4B_T2F* vertex = trianglesTwoColor.verts + v;
                             spColor lightCopy = light;
                             spColor darkCopy = dark;
                             _effect->transform(_effect, &vertex->position.x, &vertex->position.y, &vertex->texCoords.u, &vertex->texCoords.v, &lightCopy, &darkCopy);
@@ -599,8 +596,8 @@ namespace spine {
                         }
                     }
                     else {
-                        for (int v = 0, vn = batchedTriangles->getTriangles().vertCount; v < vn; ++v) {
-                            V3F_C4B_C4B_T2F* vertex = batchedTriangles->getTriangles().verts + v;
+                        for (int v = 0, vn = trianglesTwoColor.vertCount; v < vn; ++v) {
+                            V3F_C4B_C4B_T2F* vertex = trianglesTwoColor.verts + v;
                             vertex->color.r = (uint8_t)color.r;
                             vertex->color.g = (uint8_t)color.g;
                             vertex->color.b = (uint8_t)color.b;
@@ -611,6 +608,7 @@ namespace spine {
                             vertex->color2.a = (uint8_t)darkColor.a;
                         }
                     }
+                    lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
                 }
             }
             spSkeletonClipping_clipEnd(_clipper, slot);
