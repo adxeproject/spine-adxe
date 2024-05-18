@@ -165,7 +165,7 @@ void SkeletonAnimation::setMix (const std::string& fromAnimation, const std::str
 spTrackEntry* SkeletonAnimation::setAnimation (int trackIndex, const std::string& name, bool loop) {
 	spAnimation* animation = spSkeletonData_findAnimation(_skeleton->data, name.c_str());
 	if (!animation) {
-		log("Spine: Animation not found: %s", name.c_str());
+		AXLOGW("Spine: Animation not found: {}", name);
 		return 0;
 	}
 	return spAnimationState_setAnimation(_state, trackIndex, animation, loop);
@@ -174,7 +174,7 @@ spTrackEntry* SkeletonAnimation::setAnimation (int trackIndex, const std::string
 spTrackEntry* SkeletonAnimation::addAnimation (int trackIndex, const std::string& name, bool loop, float delay) {
 	spAnimation* animation = spSkeletonData_findAnimation(_skeleton->data, name.c_str());
 	if (!animation) {
-		log("Spine: Animation not found: %s", name.c_str());
+		AXLOGW("Spine: Animation not found: {}", name);
 		return 0;
 	}
 	return spAnimationState_addAnimation(_state, trackIndex, animation, loop, delay);
