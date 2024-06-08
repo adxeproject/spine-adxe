@@ -111,7 +111,7 @@ namespace spine {
 		void setOpacityModifyRGB(bool value) override;
 		bool isOpacityModifyRGB() const override;
 
-		AX_CONSTRUCTOR_ACCESS : SkeletonRenderer();
+		SkeletonRenderer();
 		SkeletonRenderer(Skeleton *skeleton, bool ownsSkeleton = false, bool ownsSkeletonData = false, bool ownsAtlas = false);
 		SkeletonRenderer(SkeletonData *skeletonData, bool ownsSkeletonData = false);
 		SkeletonRenderer(const std::string &skeletonDataFile, Atlas *atlas, float scale = 1);

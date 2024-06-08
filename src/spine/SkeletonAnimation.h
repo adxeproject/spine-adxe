@@ -103,7 +103,7 @@ namespace spine {
 		AnimationState *getState() const;
 		void setUpdateOnlyIfVisible(bool status);
 
-		AX_CONSTRUCTOR_ACCESS : SkeletonAnimation();
+		SkeletonAnimation();
 		virtual ~SkeletonAnimation();
 		virtual void initialize() override;
 
