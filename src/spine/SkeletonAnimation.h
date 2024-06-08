@@ -49,6 +49,7 @@ namespace spine {
   * played later. */
 	class SP_API SkeletonAnimation : public SkeletonRenderer {
 	public:
+		CREATE_FUNC(SkeletonAnimation);
 		static SkeletonAnimation *createWithData(SkeletonData *skeletonData, bool ownsSkeletonData = false);
 		static SkeletonAnimation *createWithJsonFile(const std::string &skeletonJsonFile, Atlas *atlas, float scale = 1);
 		static SkeletonAnimation *createWithJsonFile(const std::string &skeletonJsonFile, const std::string &atlasFile, float scale = 1);
@@ -102,7 +103,7 @@ namespace spine {
 		AnimationState *getState() const;
 		void setUpdateOnlyIfVisible(bool status);
 
-		SkeletonAnimation();
+		AX_CONSTRUCTOR_ACCESS : SkeletonAnimation();
 		virtual ~SkeletonAnimation();
 		virtual void initialize() override;
 

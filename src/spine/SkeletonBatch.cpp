@@ -99,7 +99,7 @@ namespace spine {
 		
 			command->_locMVP     = currentState->getUniformLocation(backend::UNIFORM_NAME_MVP_MATRIX);
 	        command->_locTexture = currentState->getUniformLocation(backend::UNIFORM_NAME_TEXTURE);
-		}
+	}
 		return currentState;
 	}
 

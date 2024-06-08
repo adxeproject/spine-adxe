@@ -99,7 +99,7 @@ char *AxmolExtension::_readFile(const spine::String &path, int *length) {
 	Data data = FileUtils::getInstance()->getDataFromFile(path.buffer());
 	if (data.isNull()) return nullptr;
 
-	// avoid buffer overflow (int is shorter than ssize_t in certain platforms)
+		// avoid buffer overflow (int is shorter than ssize_t in certain platforms)
 	ssize_t tmpLen;
 	char *ret = (char *) data.takeBuffer(&tmpLen);
 	*length = static_cast<int>(tmpLen);

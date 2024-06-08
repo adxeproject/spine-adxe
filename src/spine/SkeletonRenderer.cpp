@@ -95,11 +95,11 @@ namespace spine {
 		setTwoColorTint(false);
 
 		_skeleton->setToSetupPose();
-		_skeleton->updateWorldTransform();
+		_skeleton->updateWorldTransform(Physics_Update);
 	}
 
 	void SkeletonRenderer::setupGLProgramState(bool /*twoColorTintEnabled*/) {
-	}
+		}
 
 	void SkeletonRenderer::setSkeletonData(SkeletonData *skeletonData, bool ownsSkeletonData) {
 		_skeleton = new (__FILE__, __LINE__) Skeleton(skeletonData);
@@ -392,7 +392,7 @@ namespace spine {
 
 			if (hasSingleTint) {
 				if (_clipper->isClipping()) {
-					_clipper->clipTriangles((float *) &triangles.verts[0].vertices, triangles.indices, triangles.indexCount, (float *) &triangles.verts[0].texCoords, sizeof(axmol::V3F_C4B_T2F) / 4);
+					_clipper->clipTriangles((float *) &triangles.verts[0].vertices, triangles.indices, triangles.indexCount, (float *) &triangles.verts[0].texCoords, sizeof(cocos2d::V3F_C4B_T2F) / 4);
 					batch->deallocateVertices(triangles.vertCount);
 
 					if (_clipper->getClippedTriangles().size() == 0) {
@@ -411,20 +411,20 @@ namespace spine {
 					V3F_C4B_T2F* vertex = triangles.verts;
 					for (int v = 0, vn = triangles.vertCount, vv = 0; v < vn; ++v, vv += 2, ++vertex)
 					{
-						vertex->vertices.x = verts[vv];
-						vertex->vertices.y = verts[vv + 1];
-						vertex->texCoords.u = uvs[vv];
-						vertex->texCoords.v = uvs[vv + 1];
-						vertex->colors = color4B;
-					}
+                        vertex->vertices.x = verts[vv];
+                        vertex->vertices.y = verts[vv + 1];
+                        vertex->texCoords.u = uvs[vv];
+                        vertex->texCoords.v = uvs[vv + 1];
+                        vertex->colors = color4B;
+                    }
 					batch->addCommand(renderer, _globalZOrder, texture, _programState, blendFunc, triangles, transform, transformFlags);
 				} else {
 					// Not clipping.
 					V3F_C4B_T2F* vertex = triangles.verts;
 					for (int v = 0, vn = triangles.vertCount; v < vn; ++v, ++vertex)
 					{
-						vertex->colors = color4B;
-					}
+                        vertex->colors = color4B;
+                    }
 					batch->addCommand(renderer, _globalZOrder, texture, _programState, blendFunc, triangles, transform, transformFlags);
 				}
 			} else {
@@ -451,14 +451,14 @@ namespace spine {
 					V3F_C4B_C4B_T2F* vertex = trianglesTwoColor.verts;
 					for (int v = 0, vn = trianglesTwoColor.vertCount, vv = 0; v < vn; ++v, vv += 2, ++vertex)
 					{
-						vertex->position.x = verts[vv];
-						vertex->position.y = verts[vv + 1];
-						vertex->texCoords.u = uvs[vv];
-						vertex->texCoords.v = uvs[vv + 1];
-						vertex->color = color4B;
-						vertex->color2 = darkColor4B;
-					}
-					lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
+                        vertex->position.x = verts[vv];
+                        vertex->position.y = verts[vv + 1];
+                        vertex->texCoords.u = uvs[vv];
+                        vertex->texCoords.v = uvs[vv + 1];
+                        vertex->color = color4B;
+                        vertex->color2 = darkColor4B;
+                    }
+                    lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
 				} else {
                     V3F_C4B_C4B_T2F* vertex = trianglesTwoColor.verts;
                     for (int v = 0, vn = trianglesTwoColor.vertCount; v < vn; ++v, ++vertex)
@@ -466,7 +466,7 @@ namespace spine {
                         vertex->color  = color4B;
                         vertex->color2 = darkColor4B;
                     }
-					lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
+                    lastTwoColorTrianglesCommand = twoColorBatch->addCommand(renderer, _globalZOrder, texture, _programState, blendFunc, trianglesTwoColor, transform, transformFlags);
 				}
 			}
 			_clipper->clipEnd(*slot);
@@ -631,8 +631,8 @@ namespace spine {
 
 	// --- Convenience methods for Skeleton_* functions.
 
-	void SkeletonRenderer::updateWorldTransform() {
-		_skeleton->updateWorldTransform();
+	void SkeletonRenderer::updateWorldTransform(Physics physics) {
+		_skeleton->updateWorldTransform(physics);
 	}
 
 	void SkeletonRenderer::setToSetupPose() {
