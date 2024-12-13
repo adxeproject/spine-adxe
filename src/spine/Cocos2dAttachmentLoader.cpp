@@ -32,7 +32,7 @@
 #include <spine/extension.h>
 #include <spine/AttachmentVertices.h>
 
-USING_NS_CC;
+using namespace ax;
 using namespace spine;
 
 static unsigned short quadTriangles[6] = {0, 1, 2, 2, 3, 0};

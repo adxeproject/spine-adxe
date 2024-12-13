@@ -49,7 +49,7 @@ void ensureWorldVerticesCapacity(size_t capacity) {
         worldVerticesLength = capacity;
     }
 }
-USING_NS_CC;
+using namespace ax;
 
 namespace spine {
 
@@ -678,7 +678,6 @@ namespace spine {
 #if COCOS2D_VERSION < 0x00040000
             glLineWidth(2);
 #else
-            drawNode->setLineWidth(2.0f);
 #endif
             const ax::Rect brect = getBoundingBox();
             const Vec2 points[4] =
@@ -688,7 +687,7 @@ namespace spine {
                 { brect.origin.x + brect.size.width, brect.origin.y + brect.size.height },
                 { brect.origin.x, brect.origin.y + brect.size.height }
             };
-            drawNode->drawPoly(points, 4, true, Color4F::GREEN);
+            drawNode->drawPoly(points, 4, true, Color4B::GREEN, 2.0f);
         }
 
         if (_debugSlots) {
@@ -697,7 +696,6 @@ namespace spine {
 #if COCOS2D_VERSION < 0x00040000
             glLineWidth(2);
 #else
-            drawNode->setLineWidth(2.0f);
 #endif
             Vec2 points[4];
             V3F_C4B_T2F_Quad quad;
@@ -710,7 +708,7 @@ namespace spine {
                 points[1] = Vec2(worldVertices[2], worldVertices[3]);
                 points[2] = Vec2(worldVertices[4], worldVertices[5]);
                 points[3] = Vec2(worldVertices[6], worldVertices[7]);
-                drawNode->drawPoly(points, 4, true, Color4F::BLUE);
+                drawNode->drawPoly(points, 4, true, Color4B::BLUE, 2.0f);
             }
         }
 
@@ -719,20 +717,19 @@ namespace spine {
 #if COCOS2D_VERSION < 0x00040000
             glLineWidth(2);
 #else
-            drawNode->setLineWidth(2.0f);
 #endif
             for (int i = 0, n = _skeleton->bonesCount; i < n; i++) {
                 spBone* bone = _skeleton->bones[i];
                 float x = bone->data->length * bone->a + bone->worldX;
                 float y = bone->data->length * bone->c + bone->worldY;
-                drawNode->drawLine(Vec2(bone->worldX, bone->worldY), Vec2(x, y), Color4F::RED);
+                drawNode->drawLine(Vec2(bone->worldX, bone->worldY), Vec2(x, y), Color4B::RED, 2.0f);
             }
             // Bone origins.
-            auto color = Color4F::BLUE; // Root bone is blue.
+            auto color = Color4B::BLUE;// Root bone is blue.
             for (int i = 0, n = _skeleton->bonesCount; i < n; i++) {
                 spBone* bone = _skeleton->bones[i];
                 drawNode->drawPoint(Vec2(bone->worldX, bone->worldY), 4, color);
-                if (i == 0) color = Color4F::GREEN;
+                if (i == 0) color = Color4B::GREEN;
             }
         }
 
@@ -741,7 +738,7 @@ namespace spine {
 #if COCOS2D_VERSION < 0x00040000
             glLineWidth(2);
 #else
-            drawNode->setLineWidth(2.0f);
+//            drawNode->setLineWidth(2.0f);
 #endif
             for (int i = 0, n = _skeleton->slotsCount; i < n; ++i) {
                 spSlot* slot = _skeleton->drawOrder[i];
