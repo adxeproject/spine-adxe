@@ -588,7 +588,7 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 	if (_debugBoundingRect) {
 #if COCOS2D_VERSION < 0x00040000
 		glLineWidth(2);
-#else
+#elif AX_VERSION < 0x00020100
 		drawNode->setLineWidth(2.0f);
 #endif
 		const ax::Rect brect = getBoundingBox();
@@ -599,7 +599,11 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 			{ brect.origin.x + brect.size.width, brect.origin.y + brect.size.height },
 			{ brect.origin.x, brect.origin.y + brect.size.height }
 		};
-		drawNode->drawPoly(points, 4, true, Color4F::GREEN);
+#if AX_VERSION < 0x00020100
+        drawNode->drawPoly(points, 4, true, Color4F::GREEN);
+#else
+        drawNode->drawPoly(points, 4, true, Color4F::GREEN, 2.0f);
+#endif
 	}
 
 	if (_debugSlots) {
@@ -607,7 +611,7 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 		// DrawPrimitives::setDrawColor4B(0, 0, 255, 255);
 #if COCOS2D_VERSION < 0x00040000
 		glLineWidth(2);
-#else
+#elif AX_VERSION < 0x00020100
 		drawNode->setLineWidth(2.0f);
 #endif
 		V3F_C4B_T2F_Quad quad;
@@ -631,7 +635,11 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 				{ worldVertices[4], worldVertices[5] },
 				{ worldVertices[6], worldVertices[7] }
 			};
+#if AX_VERSION < 0x00020100
 			drawNode->drawPoly(points, 4, true, Color4F::BLUE);
+#else
+            drawNode->drawPoly(points, 4, true, Color4F::BLUE, 2.0f);
+#endif
 		}
 	}
 
@@ -639,7 +647,7 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 		// Bone lengths.
 #if COCOS2D_VERSION < 0x00040000
 		glLineWidth(2);
-#else
+#elif AX_VERSION < 0x00020100
 		drawNode->setLineWidth(2.0f);
 #endif
 		for (int i = 0, n = _skeleton->getBones().size(); i < n; i++) {
@@ -647,7 +655,11 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 			if (!bone->isActive()) continue;
 			float x = bone->getData().getLength() * bone->getA() + bone->getWorldX();
 			float y = bone->getData().getLength() * bone->getC() + bone->getWorldY();
-			drawNode->drawLine(Vec2(bone->getWorldX(), bone->getWorldY()), Vec2(x, y), Color4F::RED);
+#if AX_VERSION < 0x00020100
+            drawNode->drawLine(Vec2(bone->getWorldX(), bone->getWorldY()), Vec2(x, y), Color4F::RED);
+#else
+            drawNode->drawLine(Vec2(bone->getWorldX(), bone->getWorldY()), Vec2(x, y), Color4F::RED, 2.0f);
+#endif
 		}
 		// Bone origins.
 		auto color = Color4F::BLUE; // Root bone is blue.
@@ -663,7 +675,7 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 		// Meshes.
 #if COCOS2D_VERSION < 0x00040000
 		glLineWidth(2);
-#else
+#elif AX_VERSION < 0x00020100
 		drawNode->setLineWidth(2.0f);
 #endif
 		for (int i = 0, n = _skeleton->getSlots().size(); i < n; ++i) {
@@ -684,7 +696,11 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
 					worldCoord + (idx1 * 2),
 					worldCoord + (idx2 * 2)
 				};
+#if AX_VERSION < 0x00020100
 				drawNode->drawPoly(v, 3, true, Color4F::YELLOW);
+#else
+				drawNode->drawPoly(v, 3, true, Color4F::YELLOW, 2.0f);
+#endif
 			}
 			VLA_FREE(worldCoord);
 		}
